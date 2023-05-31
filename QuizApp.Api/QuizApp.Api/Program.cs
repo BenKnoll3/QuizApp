@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Api.Data;
 
@@ -12,6 +13,8 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("*");
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
                       });
 });
 
@@ -44,6 +47,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Add a redirect for the root URL
+var redirectRootUrl = app.Configuration.GetValue<string>("RedirectRootUrl", "");
+if (string.IsNullOrEmpty(redirectRootUrl)) redirectRootUrl = "https://gentle-plant-018adbf1e.3.azurestaticapps.net/";
+var options = new RewriteOptions()
+        .AddRedirect("^$", redirectRootUrl, 302);
+app.UseRewriter(options);
 
 app.UseHttpsRedirection();
 
