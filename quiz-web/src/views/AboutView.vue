@@ -24,5 +24,4 @@ Axios.get('https://localhost:7108/WeatherForecast')
   .catch((err) => {
     console.log(err)
   })
-
 </script>
