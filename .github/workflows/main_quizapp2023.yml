@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'QuizApp2023'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BD11843B6AC64D06AA6D9EE61692C4F1 }}
+          publish-profile: ${{ secrets.QUIZAPPAPISECRET }}
           package: .
