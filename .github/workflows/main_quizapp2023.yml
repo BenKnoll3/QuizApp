@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - QuizApp.Api/**
   workflow_dispatch:
 
 jobs:
@@ -23,9 +25,11 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
+        working-directory: ./QuizApp.Api
         run: dotnet build --configuration Release
 
       - name: dotnet publish
+        working-directory: ./QuizApp.Api
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
@@ -33,6 +37,7 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+          working-directory: ./QuizApp.Api
 
   deploy:
     runs-on: windows-latest
