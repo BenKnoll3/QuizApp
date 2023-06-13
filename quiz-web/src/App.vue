@@ -18,7 +18,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <v-btn>
           <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
         </v-btn>
-        
+
         <v-menu>
           <v-list width="200">
             <v-list-item>

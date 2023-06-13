@@ -26,7 +26,7 @@ const router = createRouter({
       path: '/creator',
       name: 'creator',
       component: QuizCreatorView
-    },
+    }
   ]
 })
 
