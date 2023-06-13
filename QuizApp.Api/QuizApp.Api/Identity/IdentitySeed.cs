@@ -33,7 +33,7 @@ public static class IdentitySeed
                 Email = "Admin@quizapp.quiz",
             };
 
-            IdentityResult result = userManager.CreateAsync(user, "P@ssw0rd123").Result;
+            IdentityResult result = userManager.CreateAsync(user, "TestAdmin.123").Result;
 
             if (result.Succeeded)
             {
