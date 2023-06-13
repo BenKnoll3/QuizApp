@@ -4,20 +4,37 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <v-app>
+    <span class="bg"></span>
+    <v-app-bar :elevation="3">
+      <template v-slot>
+        <v-app-bar-title>
+          <RouterLink to="/">
+            <v-icon icon="mdi-alpha-w-box" color="orange-darken-3"></v-icon>
+            QuizApp
+          </RouterLink>
+        </v-app-bar-title>
+        <v-spacer></v-spacer>
+        <v-btn>
+          <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
+        </v-btn>
+        
+        <v-menu>
+          <v-list width="200">
+            <v-list-item>
+              <v-list-item-title>
+                <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+    </v-app-bar>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <v-main>
+      <RouterView />
+    </v-main>
+  </v-app>
 </template>
 
 <style scoped>
