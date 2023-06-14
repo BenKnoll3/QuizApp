@@ -14,47 +14,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Ref } from 'vue';
-import { Card } from '@/scripts/card';
-import { Deck } from '@/scripts/deck';
+import { ref } from 'vue'
+import type { Ref } from 'vue'
+import { Card } from '@/scripts/card'
+import { Deck } from '@/scripts/deck'
 
-const quizTitle: Ref<string> = ref('');
-const questions: Ref<string[]> = ref(Array(10).fill(''));
-const answers: Ref<string[]> = ref(Array(10).fill(''));
+const quizTitle: Ref<string> = ref('')
+const questions: Ref<string[]> = ref(Array(10).fill(''))
+const answers: Ref<string[]> = ref(Array(10).fill(''))
 
 function clear(): void {
   // Reset the values of the variables if needed
-  quizTitle.value = '';
-  questions.value = Array(10).fill('');
-  answers.value = Array(10).fill('');
+  quizTitle.value = ''
+  questions.value = Array(10).fill('')
+  answers.value = Array(10).fill('')
 }
 
 function createQuiz(): void {
   // Access the values in the variables as needed
-  console.log('Quiz Title:', quizTitle.value);
-  console.log('Questions:', questions.value);
-  console.log('Answers:', answers.value);
+  console.log('Quiz Title:', quizTitle.value)
+  console.log('Questions:', questions.value)
+  console.log('Answers:', answers.value)
 
-
-  
-  const deck = new Deck();
-  deck.deckId = Math.random().toString();
-  deck.title = quizTitle.value;
-  deck.cards = [];
+  const deck = new Deck()
+  deck.deckId = Math.random().toString()
+  deck.title = quizTitle.value
+  deck.cards = []
 
   for (let j = 0; j < 10; j++) {
-    const card = new Card();
-    card.cardId = Math.random().toString();
-    card.question = questions.value[j];
-    card.answer = answers.value[j];
-    deck.cards.push(card);
+    const card = new Card()
+    card.cardId = Math.random().toString()
+    card.question = questions.value[j]
+    card.answer = answers.value[j]
+    deck.cards.push(card)
   }
 
   //Axios call to put deck into db
 
   // Use the created deck object as needed
-  console.log('Created Deck:', deck);
+  console.log('Created Deck:', deck)
 }
 </script>
-

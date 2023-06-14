@@ -15,25 +15,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Deck } from '@/scripts/deck';
-import { Card } from '@/scripts/card';
+import { ref } from 'vue'
+import { Deck } from '@/scripts/deck'
+import { Card } from '@/scripts/card'
 
-const currentDeck = ref<Deck | null>(null);
+const currentDeck = ref<Deck | null>(null)
 
 // Sample deck data
-const deck = new Deck();
-deck.title = 'Sample Deck';
+const deck = new Deck()
+deck.title = 'Sample Deck'
 deck.cards = [
   { cardId: '1', question: 'Question 1', answer: 'Answer 1', showAnswer: false },
   { cardId: '2', question: 'Question 2', answer: 'Answer 2', showAnswer: false },
-  { cardId: '3', question: 'Question 3', answer: 'Answer 3', showAnswer: false },
-];
+  { cardId: '3', question: 'Question 3', answer: 'Answer 3', showAnswer: false }
+]
 
-currentDeck.value = deck;
+currentDeck.value = deck
 
 function showAnswer(card: Card): void {
-  card.showAnswer = true;
+  card.showAnswer = true
 }
 </script>
-
