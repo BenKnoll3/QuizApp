@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using QuizApp.Api.Data;
 using QuizApp.Api.Identity;
+using QuizApp.Api.Models;
 //using QuizApp.Api.Models;
 
 namespace Wordle.Api.Controllers;
@@ -26,7 +27,7 @@ public class TokenController : Controller
     [HttpPost("GetToken")]
     public async Task<IActionResult> GetToken([FromBody] UserCredentials userCredentials)
     {
-        if (string.IsNullOrEmpty(userCredentials.Username))
+        if (string.IsNullOrEmpty(userCredentials.UserName))
         {
             return BadRequest("Username is required");
         }
@@ -35,7 +36,7 @@ public class TokenController : Controller
             return BadRequest("Password is required");
         }
 
-        var user = _context.Users.FirstOrDefault(u => u.UserName == userCredentials.Username);
+        var user = _context.Users.FirstOrDefault(u => u.UserName == userCredentials.UserName);
 
         if (user is null) { return Unauthorized("The user account was not found"); }
 
@@ -73,9 +74,9 @@ public class TokenController : Controller
     [HttpPost("CreateUser")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUser createUser)
     {
-        if (string.IsNullOrEmpty(createUser.Username) || !createUser.Username.Contains('@'))
+        if (string.IsNullOrEmpty(createUser.UserName) || !createUser.UserName.Contains('@'))
         {
-            return BadRequest("Username is required");
+            return BadRequest("Username is required and needs @");
         }
         if (string.IsNullOrEmpty(createUser.Password))
         {
@@ -83,8 +84,7 @@ public class TokenController : Controller
         }
         var user = new AppUser
         {
-            UserName = createUser.Username,
-            Email = createUser.Username
+            UserName = createUser.UserName
         };
         var result = await _userManager.CreateAsync(user, createUser.Password);
         if (result.Succeeded)
@@ -98,7 +98,7 @@ public class TokenController : Controller
     [Authorize]
     public string Test()
     {
-        return "Returning something";
+        return "Returning something w/ Auth";
     }
 
     [HttpGet("testadmin")]

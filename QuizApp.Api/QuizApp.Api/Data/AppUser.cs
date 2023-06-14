@@ -4,6 +4,6 @@ namespace QuizApp.Api.Data
 {
     public class AppUser: IdentityUser
     {
-        
+
     }
 }
