@@ -23,7 +23,10 @@ import { Deck } from '@/scripts/deck'
 import { useRouter } from 'vue-router'
 
 const Decks = ref<Deck[]>([])
+const pizza = 3;
 
+
+//temp dummy data builder
 for (let i = 0; i < 10; i++) {
   const deck = new Deck()
   deck.deckId = `Deck${i + 1}`

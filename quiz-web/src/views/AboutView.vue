@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import Axios from 'axios'
-
 Axios.get(`/WeatherForecast`)
   .then((res) => {
     console.log(res.data)
