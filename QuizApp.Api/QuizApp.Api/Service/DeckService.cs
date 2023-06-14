@@ -1,5 +1,6 @@
 ﻿using QuizApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using QuizApp.Api.Dtos;
 
 namespace QuizApp.Api.Service
 {
@@ -32,8 +33,9 @@ namespace QuizApp.Api.Service
             return decks;
         }
 
-        public async Task<Deck> CreateDeckAsync(string deckName, AppUser user)
+        public async Task<Deck> CreateDeckAsync(string deckName, string userId)
         {
+            AppUser? user = await _db.Users.FindAsync(Guid.Parse(userId)) ?? throw new ArgumentException("Failed to find userId in Table");
             Deck deck = new()
             {
                 DeckName = deckName,
