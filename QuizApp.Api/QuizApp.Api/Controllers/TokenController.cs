@@ -8,7 +8,6 @@ using System.Text;
 using QuizApp.Api.Data;
 using QuizApp.Api.Identity;
 using QuizApp.Api.Models;
-//using QuizApp.Api.Models;
 
 namespace Wordle.Api.Controllers;
 [Route("Token")]

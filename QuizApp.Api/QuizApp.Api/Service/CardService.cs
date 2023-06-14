@@ -1,6 +1,5 @@
 ﻿using QuizApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace QuizApp.Api.Service
 {
@@ -18,6 +17,16 @@ namespace QuizApp.Api.Service
             return await _db.Cards
                 .Where(c => c.CardId == cardId)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Card?>> SearchForCardAsync(string query)
+        {
+            if (query == null)
+            {
+                return Enumerable.Empty<Card>();
+            }
+            return await _db.Cards.Where(c => c.Question.Contains(query) || c.Answer.Contains(query))
+                .ToListAsync();
         }
 
         public async Task<Card> CreateCardAsync(string q, string a)
@@ -44,6 +53,7 @@ namespace QuizApp.Api.Service
             }
             throw new ArgumentException("Card Id not found");
         }
+        //delete isn't used
         public async Task<bool> DeleteCardAsync(Guid cardId)
         {
             var card = await _db.Cards.FindAsync(cardId);
