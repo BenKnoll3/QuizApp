@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QuizApp.Api.Data;
 using QuizApp.Api.Dtos;
 using QuizApp.Api.Service;
@@ -7,6 +8,7 @@ namespace QuizApp.Api.Controllers
 {
     [ApiController]
     [Route("AppUser")]
+    [Authorize]
     public class AppUserController : ControllerBase
     {
         private readonly AppUserService _appUserService;
@@ -25,5 +27,22 @@ namespace QuizApp.Api.Controllers
             }
             return BadRequest("Failed to find using str userId");
         }
+
+        /*[HttpGet]   This breaks swagger?
+        public async Task<ActionResult<AppUserDto>> GetAppUserAsync()
+        {
+            var userId = HttpContext.User.FindFirstValue(Claims.UserId);
+            if (userId is not null)
+            {
+
+            AppUser? user = await _appUserService.GetAppUserAsync(userId);
+
+            if (user is not null)
+            {
+                return new AppUserDto(user);
+            }
+            }
+            return BadRequest("Failed to find using str userId");
+        }*/
     }
 }

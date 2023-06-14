@@ -3,6 +3,7 @@ using QuizApp.Api.Service;
 using QuizApp.Api.Data;
 using QuizApp.Api.Dtos;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizApp.Api.Controllers;
 
@@ -29,6 +30,7 @@ public class CardController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<CardDto>> CreateCardAsync(CardDto newCard)
     {
         if (newCard.Answer is not null && newCard.Question is not null)
@@ -41,6 +43,7 @@ public class CardController : ControllerBase
     }
 
     [HttpPost("UpdateCard")]
+    [Authorize]
     public async Task<ActionResult<CardDto>> UpdateCardAsync(CardDto newCard)
     {
         if (newCard.Answer is not null && newCard.Question is not null && newCard.CardId is not null)

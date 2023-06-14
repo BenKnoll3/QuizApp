@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QuizApp.Api.Data;
 using QuizApp.Api.Dtos;
+using QuizApp.Api.Identity;
 using QuizApp.Api.Service;
+using System.Security.Claims;
 
 namespace QuizApp.Api.Controllers;
 
@@ -27,11 +30,30 @@ public class DeckController : ControllerBase
         return BadRequest("Could not find deck");
     }
 
-    [HttpDelete]
-    public async Task<ActionResult<bool>> DeleteDeckAsync(Guid deckId, string userId)
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<DeckDto>> CreateDeckAsync(string deckTitle)
     {
-        bool del = await _deckService.DeleteDeckAsync(deckId, userId);
-        return del;
+        var userId = HttpContext.User.FindFirstValue(Claims.UserId);
+        if (userId is not null)
+        {
+            Deck deck = await _deckService.CreateDeckAsync(deckTitle, userId);
+            return new DeckDto(deck);
+        }
+        return BadRequest("Failed to get userId from token");
+    }
+
+    [HttpDelete]
+    [Authorize]
+    public async Task<ActionResult<bool>> DeleteDeckAsync(Guid deckId)
+    {
+        var userId = HttpContext.User.FindFirstValue(Claims.UserId);
+        if (userId is not null)
+        {
+            bool del = await _deckService.DeleteDeckAsync(deckId, userId);
+            return del;
+        }
+        return BadRequest("Failed to get userId from token");
     }
     [HttpGet("GetManyDecks")]
     public async Task<IEnumerable<Deck>> GetManyDecks(int? count)
@@ -40,6 +62,7 @@ public class DeckController : ControllerBase
     }
 
     [HttpPost("AddCardToDeck")]
+    [Authorize]
     public async Task<ActionResult<Deck>> AddCardToDeckAsync(Guid deckId, Guid cardId)
     {
         var updatedDeck = await _deckService.AddCardToDeckAsync(deckId, cardId);
@@ -51,6 +74,7 @@ public class DeckController : ControllerBase
     }
 
     [HttpPost("RemoveCardFromDeck")]
+    [Authorize]
     public async Task<ActionResult<Deck>> RemoveCardFromDeckAsync(Guid deckId, Guid cardId)
     {
         var updatedDeck = await _deckService.RemoveCardFromDeckAsync(deckId, cardId);
