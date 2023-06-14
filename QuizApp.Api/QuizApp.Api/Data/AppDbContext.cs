@@ -10,5 +10,9 @@ namespace QuizApp.Api.Data
         {
         
         }
+
+        public DbSet<Card> Cards => Set<Card>();
+        public DbSet<Deck> Decks => Set<Deck>();
+
     }
 }
