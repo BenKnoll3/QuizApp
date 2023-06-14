@@ -1,6 +1,5 @@
 ﻿using QuizApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace QuizApp.Api.Service
 {
@@ -46,12 +45,12 @@ namespace QuizApp.Api.Service
             await _db.SaveChangesAsync();
             return deck;
         }
-        public async Task<bool> DeleteDeckAsync(Guid deckId, AppUser user)
+        public async Task<bool> DeleteDeckAsync(Guid deckId, string userId)
         {
             var deck = await _db.Decks.FindAsync(deckId);
             if (deck != null)
             {
-                if (deck.AppUser != user)
+                if (deck.AppUser.Id != userId)
                 {
                     throw new ArgumentException("User doesn't have permission to delete this deck");
                 }
