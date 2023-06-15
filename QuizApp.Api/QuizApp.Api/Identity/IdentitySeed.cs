@@ -25,12 +25,12 @@ public static class IdentitySeed
     private static async Task SeedAdminUserAsync(UserManager<AppUser> userManager)
     {
         // Seed Admin User
-        if (await userManager.FindByEmailAsync("Admin@intellitect.com") == null)
+        if (await userManager.FindByEmailAsync("Admin@quizapp") == null)
         {
             AppUser user = new AppUser
             {
-                UserName = "Admin@quizapp.quiz",
-                Email = "Admin@quizapp.quiz",
+                UserName = "Admin@quizapp",
+                Email = "Admin@quizapp",
             };
 
             IdentityResult result = userManager.CreateAsync(user, "TestAdmin.123").Result;

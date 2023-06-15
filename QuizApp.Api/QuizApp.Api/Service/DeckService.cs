@@ -19,6 +19,12 @@ namespace QuizApp.Api.Service
                 .Where(d => d.DeckId == deckId)
                 .FirstOrDefaultAsync();
         }
+        public async Task<Deck?> GetDeckAsync(string deckTitle)
+        {
+            return await _db.Decks
+                .Where(d => d.DeckName == deckTitle)
+                .FirstOrDefaultAsync();
+        }
 
         public async Task<IEnumerable<Deck>> GetSeveralDecksAsync(int? count)
         {
@@ -35,27 +41,30 @@ namespace QuizApp.Api.Service
 
         public async Task<Deck> CreateDeckAsync(string deckName, string userId)
         {
-            AppUser? user = await _db.Users.FindAsync(Guid.Parse(userId)) ?? throw new ArgumentException("Failed to find userId in Table");
+            AppUser? user = await _db.Users.FindAsync(userId) ?? throw new ArgumentException("Failed to find userId in Table");
             Deck deck = new()
             {
                 DeckName = deckName,
                 DeckId = Guid.NewGuid(),
                 Cards = new List<Card>(),
-                AppUser = user
+                AppUserId = user.Id
             };
+            user.Decks.Add(deck);
             _db.Decks.Add(deck);
             await _db.SaveChangesAsync();
             return deck;
         }
         public async Task<bool> DeleteDeckAsync(Guid deckId, string userId)
         {
+            AppUser? user = await _db.Users.FindAsync(userId) ?? throw new ArgumentException("Failed to find userId in Table");
             var deck = await _db.Decks.FindAsync(deckId);
             if (deck != null)
             {
-                if (deck.AppUser.Id != userId)
+                if (deck.AppUserId != user.Id)
                 {
                     throw new ArgumentException("User doesn't have permission to delete this deck");
                 }
+                user.Decks.Remove(deck);
                 _db.Decks.Remove(deck);
                 await _db.SaveChangesAsync();
                 return true;

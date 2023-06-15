@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using QuizApp.Api.Data;
 using QuizApp.Api.Identity;
+using QuizApp.Api.Service;
 
 var MyAllowAllOrigins = "_myAllowAllOrigins";
 
@@ -60,6 +61,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+builder.Services.AddScoped<CardService>();
+builder.Services.AddScoped<AppUserService>();
+builder.Services.AddScoped<DeckService>();
 
 // Identity services
 builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
