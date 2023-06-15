@@ -19,18 +19,30 @@ import { ref } from 'vue'
 import { Deck } from '@/scripts/deck'
 import { Card } from '@/scripts/card'
 import Axios from 'axios'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const myString = route.query.myString as string
+console.log(myString)
 
 //const currentDeck = ref<Deck | null>(null)
 
 //Axios call to get deck user clicked on
-let currentDeck = new Deck()
-/*
-Axios.get(`/Deck`, {
-  deckId: "pizza"
-}).then((result) => {
-  currentDeck = result.data as Deck
+const currentDeck = ref<Deck | null>(null)
+
+Axios.get('/Deck', {
+  params: {
+    deckId: myString
+  }
 })
-*/
+  .then((result) => {
+    currentDeck.value = result.data as Deck
+    // Use the currentDeck as needed
+    console.log(currentDeck)
+  })
+  .catch((error) => {
+    console.error('Error:', error)
+  })
 
 // Sample deck data
 /*
@@ -41,9 +53,8 @@ deck.cards = [
   { cardId: '2', question: 'Question 2', answer: 'Answer 2', showAnswer: false },
   { cardId: '3', question: 'Question 3', answer: 'Answer 3', showAnswer: false }
 ]
-
-currentDeck.value = deck
 */
+
 function showAnswer(card: Card): void {
   card.showAnswer = true
 }
