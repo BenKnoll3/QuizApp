@@ -1,7 +1,7 @@
 <template>
   <main>
     <div v-if="currentDeck">
-      <h2>{{ currentDeck.title }}</h2>
+      <h2>{{ currentDeck.deckName }}</h2>
       <v-card v-for="card in currentDeck.cards" :key="card.cardId">
         <v-card-title>{{ card.question }}</v-card-title>
         <v-card-actions>
