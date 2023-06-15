@@ -24,26 +24,6 @@ import { useRouter } from 'vue-router'
 
 const Decks = ref<Deck[]>([])
 
-//temp dummy data builder
-/*
-for (let i = 0; i < 10; i++) {
-  const deck = new Deck()
-  deck.deckId = `Deck${i + 1}`
-  deck.title = `Deck ${i + 1}`
-  deck.cards = []
-
-  for (let j = 0; j < 10; j++) {
-    const card = new Card()
-    card.cardId = Math.random().toString()
-    card.question = `Deck ${i + 1} - Dummy Question ${j + 1}`
-    card.answer = `Deck ${i + 1} - Dummy Answer ${j + 1}`
-    deck.cards.push(card)
-  }
-
-  Decks.value.push(deck)
-}
-*/
-
 //Axios call to get decks
 Axios.get(`/Deck/GetManyDecks`).then((result) => {
   console.log(result.data)
