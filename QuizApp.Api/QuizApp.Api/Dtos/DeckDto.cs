@@ -10,11 +10,9 @@ namespace QuizApp.Api.Dtos
             DeckId = deck.DeckId;
             DeckName = deck.DeckName;
             Cards = deck.Cards;
-            AppUserId = deck.AppUserId;
         }
         public Guid? DeckId { get; set; }
         public string? DeckName { get; set;}
         public ICollection<Card>? Cards { get; set;}
-        public string? AppUserId { get; set; }
     }
 }

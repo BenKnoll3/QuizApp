@@ -18,9 +18,10 @@ public class CardController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<CardDto>> GetCardAsync(Guid cardId)
+    public async Task<ActionResult<CardDto>> GetCardAsync(string cardId)
     {
-        Card? card = await _cardService.GetCardAsync(cardId);
+        Guid gCardId = Guid.Parse(cardId);
+        Card? card = await _cardService.GetCardAsync(gCardId);
 
         if (card is not null)
         {
@@ -31,7 +32,7 @@ public class CardController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<CardDto>> CreateCardAsync(CardDto newCard)
+    public async Task<ActionResult<CardDto>> CreateCardAsync([FromBody] CardDto newCard)
     {
         if (newCard.Answer is not null && newCard.Question is not null)
         {
@@ -44,7 +45,7 @@ public class CardController : ControllerBase
 
     [HttpPost("UpdateCard")]
     [Authorize]
-    public async Task<ActionResult<CardDto>> UpdateCardAsync(CardDto newCard)
+    public async Task<ActionResult<CardDto>> UpdateCardAsync([FromBody] CardDto newCard)
     {
         if (newCard.Answer is not null && newCard.Question is not null && newCard.CardId is not null)
         {

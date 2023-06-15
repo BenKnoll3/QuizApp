@@ -19,9 +19,10 @@ public class DeckController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<DeckDto>> GetDeckAsync(Guid deckId)
+    public async Task<ActionResult<DeckDto>> GetDeckAsync(string deckId)
     {
-        Deck? deck = await _deckService.GetDeckAsync(deckId);
+        Guid gDeckId = Guid.Parse(deckId);
+        Deck? deck = await _deckService.GetDeckAsync(gDeckId);
 
         if (deck is not null)
         {
@@ -30,9 +31,9 @@ public class DeckController : ControllerBase
         return BadRequest("Could not find deck");
     }
     [HttpGet("Search")]
-    public async Task<ActionResult<DeckDto>> GetDeckAsync(string deckName)
+    public async Task<ActionResult<DeckDto>> SearchDeckAsync(string deckName)
     {
-        Deck? deck = await _deckService.GetDeckAsync(deckName);
+        Deck? deck = await _deckService.GetDeckSearchAsync(deckName);
 
         if (deck is not null)
         {
@@ -43,7 +44,7 @@ public class DeckController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<DeckDto>> CreateDeckAsync(string deckTitle)
+    public async Task<ActionResult<DeckDto>> CreateDeckAsync([FromBody]string deckTitle)
     {
         var userId = HttpContext.User.FindFirstValue(Claims.UserId);
         if (userId is not null)
@@ -56,12 +57,13 @@ public class DeckController : ControllerBase
 
     [HttpDelete]
     [Authorize]
-    public async Task<ActionResult<bool>> DeleteDeckAsync(Guid deckId)
+    public async Task<ActionResult<bool>> DeleteDeckAsync(string deckId)
     {
+        Guid gDeckId = Guid.Parse(deckId);
         var userId = HttpContext.User.FindFirstValue(Claims.UserId);
         if (userId is not null)
         {
-            bool del = await _deckService.DeleteDeckAsync(deckId, userId);
+            bool del = await _deckService.DeleteDeckAsync(gDeckId, userId);
             return del;
         }
         return BadRequest("Failed to get userId from token");
@@ -74,9 +76,11 @@ public class DeckController : ControllerBase
 
     [HttpPost("AddCardToDeck")]
     [Authorize]
-    public async Task<ActionResult<Deck>> AddCardToDeckAsync(Guid deckId, Guid cardId)
+    public async Task<ActionResult<Deck>> AddCardToDeckAsync([FromBody]string deckId, string cardId)
     {
-        var updatedDeck = await _deckService.AddCardToDeckAsync(deckId, cardId);
+        Guid gDeckId = Guid.Parse(deckId);
+        Guid gCardId = Guid.Parse(cardId);
+        var updatedDeck = await _deckService.AddCardToDeckAsync(gDeckId, gCardId);
         if (updatedDeck is not null)
         {
             return updatedDeck;
@@ -86,9 +90,11 @@ public class DeckController : ControllerBase
 
     [HttpPost("RemoveCardFromDeck")]
     [Authorize]
-    public async Task<ActionResult<Deck>> RemoveCardFromDeckAsync(Guid deckId, Guid cardId)
+    public async Task<ActionResult<Deck>> RemoveCardFromDeckAsync([FromBody] string deckId, string cardId)
     {
-        var updatedDeck = await _deckService.RemoveCardFromDeckAsync(deckId, cardId);
+        Guid gDeckId = Guid.Parse(deckId);
+        Guid gCardId = Guid.Parse(cardId);
+        var updatedDeck = await _deckService.RemoveCardFromDeckAsync(gDeckId, gCardId);
         if (updatedDeck is not null)
         {
             return updatedDeck;

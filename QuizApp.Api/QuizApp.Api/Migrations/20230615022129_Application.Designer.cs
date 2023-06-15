@@ -12,7 +12,7 @@ using QuizApp.Api.Data;
 namespace QuizApp.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230614225836_Application")]
+    [Migration("20230615022129_Application")]
     partial class Application
     {
         /// <inheritdoc />
@@ -327,11 +327,9 @@ namespace QuizApp.Api.Migrations
 
             modelBuilder.Entity("QuizApp.Api.Data.Deck", b =>
                 {
-                    b.HasOne("QuizApp.Api.Data.AppUser", "AppUser")
+                    b.HasOne("QuizApp.Api.Data.AppUser", null)
                         .WithMany("Decks")
                         .HasForeignKey("AppUserId");
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("QuizApp.Api.Data.AppUser", b =>
