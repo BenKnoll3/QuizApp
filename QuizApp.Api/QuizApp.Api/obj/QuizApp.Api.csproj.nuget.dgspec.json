@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\sharedDocs\\GitHub\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj": {}
+    "C:\\code\\FinalProjectQuizApp\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj": {}
   },
   "projects": {
-    "E:\\sharedDocs\\GitHub\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj": {
+    "C:\\code\\FinalProjectQuizApp\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\sharedDocs\\GitHub\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj",
+        "projectUniqueName": "C:\\code\\FinalProjectQuizApp\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj",
         "projectName": "QuizApp.Api",
-        "projectPath": "E:\\sharedDocs\\GitHub\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj",
-        "packagesPath": "C:\\Users\\natea\\.nuget\\packages\\",
-        "outputPath": "E:\\sharedDocs\\GitHub\\QuizApp\\QuizApp.Api\\QuizApp.Api\\obj\\",
+        "projectPath": "C:\\code\\FinalProjectQuizApp\\QuizApp\\QuizApp.Api\\QuizApp.Api\\QuizApp.Api.csproj",
+        "packagesPath": "C:\\Users\\Silen\\.nuget\\packages\\",
+        "outputPath": "C:\\code\\FinalProjectQuizApp\\QuizApp\\QuizApp.Api\\QuizApp.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\natea\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Silen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

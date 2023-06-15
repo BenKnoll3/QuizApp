@@ -76,10 +76,10 @@ public class DeckController : ControllerBase
 
     [HttpPost("AddCardToDeck")]
     [Authorize]
-    public async Task<ActionResult<Deck>> AddCardToDeckAsync([FromBody]string deckId, string cardId)
+    public async Task<ActionResult<Deck>> AddCardToDeckAsync([FromBody] AddCardDto addCardDto)
     {
-        Guid gDeckId = Guid.Parse(deckId);
-        Guid gCardId = Guid.Parse(cardId);
+        Guid gDeckId = Guid.Parse(addCardDto.DeckId);
+        Guid gCardId = Guid.Parse(addCardDto.CardId);
         var updatedDeck = await _deckService.AddCardToDeckAsync(gDeckId, gCardId);
         if (updatedDeck is not null)
         {
