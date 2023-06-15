@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <v-app>
     <span class="bg"></span>
@@ -15,15 +10,27 @@ import HelloWorld from './components/HelloWorld.vue'
           </RouterLink>
         </v-app-bar-title>
         <v-spacer></v-spacer>
+
         <v-btn>
-          <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
+          <span v-if="!signInService.isSignedIn" @click="signIn">Not signed in</span>
+          <span v-else>{{ signInService.token.userName }}</span>
         </v-btn>
 
         <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn icon="mdi-hamburger" v-bind="props"></v-btn>
+          </template>
+
           <v-list width="200">
             <v-list-item>
-              <v-list-item-title>
-                <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
+              <RouterLink :to="{ name: 'profile' }"> Profile </RouterLink>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title v-if="signInService.isSignedIn" @click="signInService.signOut()">
+                Sign Out
+              </v-list-item-title>
+              <v-list-item-title v-if="!signInService.isSignedIn" @click="signIn">
+                Sign In
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -32,71 +39,31 @@ import HelloWorld from './components/HelloWorld.vue'
     </v-app-bar>
 
     <v-main>
+      <SignInDialog v-model="showSignInDialog"> </SignInDialog>
       <RouterView />
     </v-main>
   </v-app>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+//import { useTheme } from 'vuetify/lib/framework.mjs'
+import { inject, reactive, ref } from 'vue'
+import { useDisplay } from 'vuetify'
+import { provide } from 'vue'
+import { Services } from './scripts/services'
+//import ActiveUser from './components/ActiveUser.vue'
+import type { SignInService } from './scripts/signInService'
+import SignInDialog from './components/SignInDialog.vue'
+import { watch } from 'vue'
+
+// Provide the useDisplay to other components so that it can be used in testing.
+const display = reactive(useDisplay())
+provide(Services.Display, display)
+
+const signInService = inject(Services.SignInService) as SignInService
+const showSignInDialog = ref(false)
+
+function signIn() {
+  showSignInDialog.value = true
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
+</script>

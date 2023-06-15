@@ -26,7 +26,7 @@ import { Deck } from '@/scripts/deck'
 import { useRouter } from 'vue-router'
 
 const Decks = ref<Deck[]>([])
-
+/*
 for (let i = 0; i < 10; i++) {
   const deck = new Deck()
   deck.deckId = `Deck${i + 1}`
@@ -45,6 +45,11 @@ for (let i = 0; i < 10; i++) {
 }
 
 console.log(Decks)
+*/
 
 //Axios call to get decks
+Axios.get(`/Deck/GetManyDecks`).then((result) => {
+  console.log(result.data)
+  Decks.value = result.data as Deck[]
+})
 </script>

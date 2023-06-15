@@ -18,10 +18,22 @@
 import { ref } from 'vue'
 import { Deck } from '@/scripts/deck'
 import { Card } from '@/scripts/card'
+import Axios from 'axios'
 
-const currentDeck = ref<Deck | null>(null)
+//const currentDeck = ref<Deck | null>(null)
+
+//Axios call to get deck user clicked on
+let currentDeck = new Deck()
+/*
+Axios.get(`/Deck`, {
+  deckId: "pizza"
+}).then((result) => {
+  currentDeck = result.data as Deck
+})
+*/
 
 // Sample deck data
+/*
 const deck = new Deck()
 deck.title = 'Sample Deck'
 deck.cards = [
@@ -31,7 +43,7 @@ deck.cards = [
 ]
 
 currentDeck.value = deck
-
+*/
 function showAnswer(card: Card): void {
   card.showAnswer = true
 }
