@@ -4,7 +4,7 @@
     <v-row>
       <v-col v-for="(deck, deckIndex) in Decks" :key="deckIndex" cols="12" sm="6" md="4" lg="3">
         <v-card>
-          <v-card-title>Title: {{ deck.title }}</v-card-title>
+          <v-card-title>Title: {{ deck.deckName }}</v-card-title>
           <v-card-text>Number of Questions: {{ deck.cards.length }} </v-card-text>
           <v-card-actions>
             <v-btn :to="{ name: 'quiz', query: { myString: deck.deckId } }">Take quiz</v-btn>

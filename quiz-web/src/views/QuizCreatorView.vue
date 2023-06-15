@@ -33,7 +33,7 @@ function clear(): void {
 
 function createQuiz() {
   const deck = new Deck()
-  deck.title = quizTitle.value
+  deck.deckName = quizTitle.value
   deck.cards = []
   let deckBuilder = ''
   let cardBuilder = ''
@@ -41,7 +41,7 @@ function createQuiz() {
 
   let cardData = null
   //Create a new deck and assign it to the logged in user
-  Axios.post(`/Deck`, deck.title, {
+  Axios.post(`/Deck`, deck.deckName, {
     headers: { 'Content-Type': 'application/json' }
   })
     .then((response) => {
