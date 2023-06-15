@@ -41,8 +41,8 @@ function createQuiz() {
 
   let cardData = null
   //Create a new deck and assign it to the logged in user
-  Axios.post(`/Deck`, {
-    deckTitle: deck.title
+  Axios.post(`/Deck`, deck.title, {
+    headers: { 'Content-Type': 'application/json' }
   }).then((response) => {
     const deckData = response.data
     //console.log(deckData)
@@ -67,10 +67,13 @@ function createQuiz() {
     })
 
     //Add new card to deck which takes deckId and cardID
-    Axios.post(`/Deck/AddCardToDeck`, {
+    Axios.post(`Deck/AddCardToDeck`, {
       deckId: deckBuilder.value,
       cardId: cardBuilder.value
     })
+
   }
+    
 }
+
 </script>
