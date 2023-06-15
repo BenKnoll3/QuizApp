@@ -12,8 +12,8 @@ using QuizApp.Api.Data;
 namespace QuizApp.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230614193907_Initial")]
-    partial class Initial
+    [Migration("20230614225836_Application")]
+    partial class Application
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

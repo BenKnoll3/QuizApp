@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuizApp.Api.Data;
-using QuizApp.Api.Dtos;
 
 namespace QuizApp.Api.Service;
 
@@ -12,14 +11,27 @@ public class AppUserService
         _db = db;
     }
 
-    public async Task<AppUser> GetAppUserAsync(string userId)
+    public async Task<AppUser> GetAppUserAsync(string userName)
     {
-        var user = await _db.Users.FindAsync(userId);
+        var user = await _db.Users
+            .Where(u => u.UserName == userName)
+            .FirstOrDefaultAsync();
         if (user != null)
         {
             return user;
         }
-        throw new ArgumentException("userId not found");
+        throw new ArgumentException("user with userName not found");
+    }
+    public async Task<AppUser> GetAppUserIdAsync(string userId)
+    {
+        var user = await _db.Users
+            .Where(u => u.Id == userId)
+            .FirstOrDefaultAsync();
+        if (user != null)
+        {
+            return user;
+        }
+        throw new ArgumentException("user with userName not found");
     }
 }
 

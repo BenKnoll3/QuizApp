@@ -49,6 +49,7 @@ public class TokenController : Controller
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(Claims.UserName, user.UserName.ToString()),
                 new Claim(Claims.UserId, user.Id.ToString())
             };
             var roles = await _userManager.GetRolesAsync(user);
@@ -83,7 +84,8 @@ public class TokenController : Controller
         }
         var user = new AppUser
         {
-            UserName = createUser.UserName
+            UserName = createUser.UserName,
+            Decks = new List<Deck>()
         };
         var result = await _userManager.CreateAsync(user, createUser.Password);
         if (result.Succeeded)
