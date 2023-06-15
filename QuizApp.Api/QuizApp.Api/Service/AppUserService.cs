@@ -28,6 +28,7 @@ public class AppUserService
         var user = await _db.Users
             .Where(u => u.Id == userId)
             .Include(u => u.Decks)
+            .ThenInclude(c => c.Cards)
             .FirstOrDefaultAsync();
         if (user != null)
         {
