@@ -324,11 +324,9 @@ namespace QuizApp.Api.Migrations
 
             modelBuilder.Entity("QuizApp.Api.Data.Deck", b =>
                 {
-                    b.HasOne("QuizApp.Api.Data.AppUser", "AppUser")
+                    b.HasOne("QuizApp.Api.Data.AppUser", null)
                         .WithMany("Decks")
                         .HasForeignKey("AppUserId");
-
-                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("QuizApp.Api.Data.AppUser", b =>

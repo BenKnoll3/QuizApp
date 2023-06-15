@@ -30,9 +30,9 @@ public class DeckController : ControllerBase
         return BadRequest("Could not find deck");
     }
     [HttpGet("Search")]
-    public async Task<ActionResult<DeckDto>> GetDeckAsync(string deckName)
+    public async Task<ActionResult<DeckDto>> SearchDeckAsync(string deckName)
     {
-        Deck? deck = await _deckService.GetDeckAsync(deckName);
+        Deck? deck = await _deckService.GetDeckSearchAsync(deckName);
 
         if (deck is not null)
         {

@@ -1,6 +1,5 @@
 ﻿using QuizApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
-using QuizApp.Api.Dtos;
 
 namespace QuizApp.Api.Service
 {
@@ -17,12 +16,14 @@ namespace QuizApp.Api.Service
         {
             return await _db.Decks
                 .Where(d => d.DeckId == deckId)
+                .Include(d => d.Cards)
                 .FirstOrDefaultAsync();
         }
-        public async Task<Deck?> GetDeckAsync(string deckTitle)
+        public async Task<Deck?> GetDeckSearchAsync(string deckTitle)
         {
             return await _db.Decks
                 .Where(d => d.DeckName == deckTitle)
+                .Include(d => d.Cards)
                 .FirstOrDefaultAsync();
         }
 
@@ -35,19 +36,21 @@ namespace QuizApp.Api.Service
             var decks = await _db.Decks
               .Skip(index)
               .Take(count.Value)
+              .Include(d => d.Cards)
               .ToListAsync();
             return decks;
         }
 
         public async Task<Deck> CreateDeckAsync(string deckName, string userId)
         {
-            AppUser? user = await _db.Users.FindAsync(userId) ?? throw new ArgumentException("Failed to find userId in Table");
+            AppUser? user = await _db.AppUsers
+                .Include(u => u.Decks)
+                .FirstAsync(u => u.Id == userId) ?? throw new ArgumentException("Failed to find userId in Table");
             Deck deck = new()
             {
                 DeckName = deckName,
                 DeckId = Guid.NewGuid(),
                 Cards = new List<Card>(),
-                AppUserId = user.Id
             };
             user.Decks.Add(deck);
             _db.Decks.Add(deck);
@@ -56,11 +59,13 @@ namespace QuizApp.Api.Service
         }
         public async Task<bool> DeleteDeckAsync(Guid deckId, string userId)
         {
-            AppUser? user = await _db.Users.FindAsync(userId) ?? throw new ArgumentException("Failed to find userId in Table");
+            AppUser? user = await _db.AppUsers
+                .Include(u => u.Decks)
+                .FirstAsync(u => u.Id == userId) ?? throw new ArgumentException("Failed to find userId in Table");
             var deck = await _db.Decks.FindAsync(deckId);
             if (deck != null)
             {
-                if (deck.AppUserId != user.Id)
+                if (!user.Decks.Contains(deck))
                 {
                     throw new ArgumentException("User doesn't have permission to delete this deck");
                 }
@@ -74,7 +79,9 @@ namespace QuizApp.Api.Service
         public async Task<Deck> AddCardToDeckAsync(Guid deckId, Guid cardId)
         {
             var card = await _db.Cards.FindAsync(cardId);
-            var deck = await _db.Decks.FindAsync(deckId);
+            var deck = await _db.Decks
+                .Include(d => d.Cards)
+                .FirstAsync(d => d.DeckId == deckId);
             if (card is not null && deck is not null)
             {
                 deck.Cards.Add(card);
@@ -87,7 +94,9 @@ namespace QuizApp.Api.Service
         public async Task<Deck> RemoveCardFromDeckAsync(Guid deckId, Guid cardId)
         {
             var card = await _db.Cards.FindAsync(cardId);
-            var deck = await _db.Decks.FindAsync(deckId);
+            var deck = await _db.Decks
+                .Include(d => d.Cards)
+                .FirstAsync(d => d.DeckId == deckId);
             if (card is not null && deck is not null)
             {
                 if (!deck.Cards.Remove(card))

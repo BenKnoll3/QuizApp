@@ -13,11 +13,13 @@ namespace QuizApp.Api.Data
 
         public DbSet<Card> Cards => Set<Card>();
         public DbSet<Deck> Decks => Set<Deck>();
+        public DbSet<AppUser> AppUsers => Set<AppUser>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<AppUser>()
+                .HasMany(u => u.Decks);
         }
     }
 }
