@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Random Quizzes</h2>
+    <h2>Your Quizzes</h2>
     <v-row>
       <v-col v-for="(deck, deckIndex) in Decks" :key="deckIndex" cols="12" sm="6" md="4" lg="3">
         <v-card>
@@ -13,6 +13,9 @@
       </v-col>
     </v-row>
   </div>
+  <div>
+    <v-btn to="/creator"> Create Quiz </v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,8 +26,6 @@ import { Deck } from '@/scripts/deck'
 import { useRouter } from 'vue-router'
 
 const Decks = ref<Deck[]>([])
-
-//temp dummy data builder
 /*
 for (let i = 0; i < 10; i++) {
   const deck = new Deck()
@@ -42,6 +43,8 @@ for (let i = 0; i < 10; i++) {
 
   Decks.value.push(deck)
 }
+
+console.log(Decks)
 */
 
 //Axios call to get decks
