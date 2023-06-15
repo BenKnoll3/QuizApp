@@ -14,5 +14,6 @@ namespace QuizApp.Api.Dtos
         public Guid? DeckId { get; set; }
         public string? DeckName { get; set;}
         public ICollection<Card>? Cards { get; set;}
+        public Card? Card { get; set;}
     }
 }
