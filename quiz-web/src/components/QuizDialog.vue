@@ -4,7 +4,7 @@
     <v-row>
       <v-col v-for="(deck, deckIndex) in Decks" :key="deckIndex" cols="12" sm="6" md="4" lg="3">
         <v-card @click="showCardDialog(deck)">
-          <v-card-title>{{ deck.title }}</v-card-title>
+          <v-card-title>{{ deck.deckName }}</v-card-title>
           <v-card-text>Number of Questions: {{ deck.cards.length }}</v-card-text>
           <v-card-actions>
             <v-btn color="primary">Take quiz</v-btn>

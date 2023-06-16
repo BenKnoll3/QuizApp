@@ -1,7 +1,6 @@
 <template>
   <v-text-field v-model="quizTitle" label="Title of quiz"></v-text-field>
 
-  <!-- Repeat for each question -->
   <v-card v-for="i in 10" :key="i">
     <v-text-field v-model="questions[i - 1]" :label="'Question ' + i"></v-text-field>
     <v-text-field v-model="answers[i - 1]" :label="'Answer ' + i"></v-text-field>
@@ -33,7 +32,7 @@ function clear(): void {
 
 function createQuiz() {
   const deck = new Deck()
-  deck.title = quizTitle.value
+  deck.deckName = quizTitle.value
   deck.cards = []
   let deckBuilder = ''
   let cardBuilder = ''
@@ -41,12 +40,11 @@ function createQuiz() {
 
   let cardData = null
   //Create a new deck and assign it to the logged in user
-  Axios.post(`/Deck`, deck.title, {
+  Axios.post(`/Deck`, deck.deckName, {
     headers: { 'Content-Type': 'application/json' }
   })
     .then((response) => {
       const deckData = response.data
-      //console.log(deckData)
       deckBuilder = deckData.deckId
       console.log(deckBuilder)
     })
@@ -75,7 +73,6 @@ function createQuiz() {
             )
           console.log(deckBuilder)
           console.log(cardBuilder)
-          //Add new card to deck which takes deckId and cardID
         }
       }
     })
