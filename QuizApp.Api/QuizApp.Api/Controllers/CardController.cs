@@ -2,8 +2,8 @@
 using QuizApp.Api.Service;
 using QuizApp.Api.Data;
 using QuizApp.Api.Dtos;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace QuizApp.Api.Controllers;
 
